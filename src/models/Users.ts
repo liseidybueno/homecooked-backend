@@ -1,6 +1,13 @@
 import { sq } from "../config/db";
 import { DataTypes, literal } from "sequelize";
 
+export interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
 export const Users = sq.define("users", {
   uuid: {
     type: DataTypes.UUID,

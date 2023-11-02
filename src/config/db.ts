@@ -11,7 +11,6 @@ export const sq = new Sequelize(
 export const connectDB = async () => {
   try {
     await sq.authenticate();
-    console.log("**Connection has been established");
   } catch (error) {
     console.error("Unable to connect", error);
   }
