@@ -3,6 +3,7 @@ import express, { Express, Response } from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import signUpRouter from "./routers/signupRouter";
+import loginRouter from "./routers/loginRouter";
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.get("/", (res: Response) => {
 });
 
 app.use("/signup", signUpRouter);
+app.use("/login", loginRouter);
 
 const port = process.env.PORT || 8000;
 
