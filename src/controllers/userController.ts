@@ -27,7 +27,7 @@ async function createUser(user: User) {
   }
 }
 
-async function getUser(email: string, password: string) {
+async function getUser(email: string) {
   try {
     const user = await Users.findOne({
       where: {
@@ -36,22 +36,10 @@ async function getUser(email: string, password: string) {
     });
 
     if (user) {
-      // const password = getUser.dataValues.password;
-      console.log("****correct user");
-
-      if (password === user.dataValues.password) {
-        console.log("***correct password");
-        return {
-          canLogin: true,
-          user: user,
-        };
-      } else {
-        return {
-          canLogin: false,
-          errorMsg:
-            'Password was incorrect, please try again or click "Forgot Password"',
-        };
-      }
+      return {
+        canLogin: true,
+        user,
+      };
     } else {
       return {
         canLogin: false,
@@ -59,8 +47,6 @@ async function getUser(email: string, password: string) {
           "This user does not exist. Please sign up or try another email address.",
       };
     }
-
-    return getUser;
   } catch (error) {
     console.error("Unable to connect", error);
     return false;

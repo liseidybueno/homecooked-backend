@@ -7,7 +7,7 @@ const loginRouter: Router = express.Router();
 loginRouter.post("/", async (req: Request, res: Response) => {
   const user = req.body.user;
 
-  const loginResponse = await userController.getUser(user.email, user.password);
+  const loginResponse = await userController.getUser(user.email);
 
   res.status(200).send({ loginResponse });
 });
