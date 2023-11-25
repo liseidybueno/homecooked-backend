@@ -4,10 +4,19 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import signUpRouter from "./routers/signupRouter";
 import loginRouter from "./routers/loginRouter";
+import {
+  resetPasswordRouter,
+  requestPasswordRouter,
+} from "./routers/requestPasswordRouter";
+import { connectDB } from "./config/db";
+import User from "./models/Users";
 
 dotenv.config();
 
 const app: Express = express();
+
+connectDB();
+User.initialize();
 
 app.use(express.json());
 app.use(cors());
@@ -18,8 +27,12 @@ app.get("/", (res: Response) => {
   res.send("Hello World From the Typescript Server!");
 });
 
+console.log("****index");
+
 app.use("/signup", signUpRouter);
 app.use("/login", loginRouter);
+app.use("/requestResetPassword", requestPasswordRouter);
+app.use("/resetPassword", resetPasswordRouter);
 
 const port = process.env.PORT || 8000;
 

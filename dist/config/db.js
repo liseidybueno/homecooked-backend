@@ -9,6 +9,7 @@ exports.sq = new sequelize_typescript_1.Sequelize(env === "production" ? config_
 const connectDB = async () => {
     try {
         await exports.sq.authenticate();
+        console.log("Connected to database");
     }
     catch (error) {
         console.error("Unable to connect", error);

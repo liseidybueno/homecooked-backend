@@ -7,9 +7,30 @@ const loginRouter: Router = express.Router();
 loginRouter.post("/", async (req: Request, res: Response) => {
   const user = req.body.user;
 
-  const loginResponse = await userController.getUser(user.email);
+  const doesEmailExist = await userController.getEmail(user.email);
 
-  res.status(200).send({ loginResponse });
+  if (doesEmailExist) {
+    const isCorrectPassword = await userController.checkPassword(
+      user.email,
+      user.password
+    );
+
+    if (isCorrectPassword) {
+      res.status(200).send({
+        isCorrectEmail: true,
+        isCorrectPassword: true,
+      });
+    } else {
+      res.status(200).send({
+        isCorrectEmail: true,
+        isCorrectPassword: false,
+      });
+    }
+  } else {
+    res.status(200).send({
+      isCorrectEmail: false,
+    });
+  }
 });
 
 export default loginRouter;
