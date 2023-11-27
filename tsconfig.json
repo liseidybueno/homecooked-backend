@@ -23,6 +23,11 @@
     "resolveJsonModule": true,
     "baseUrl": "."
   },
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "tsconfig.json"
+    }
+  },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "tests/**/*.ts"]
 }

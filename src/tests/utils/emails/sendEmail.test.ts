@@ -2,12 +2,6 @@ jest.mock("nodemailer");
 
 import sendEmail from "../../../utils/emails/sendEmail";
 import * as nodemailer from "nodemailer";
-import { jest } from "@jest/globals";
-
-beforeEach(() => {
-  jest.clearAllMocks(); // Clears mocks between tests
-  jest.resetModules();
-});
 
 describe("sendEmail function", () => {
   it("should send an email successfully", async () => {

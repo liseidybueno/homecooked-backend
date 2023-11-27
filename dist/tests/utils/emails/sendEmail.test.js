@@ -26,9 +26,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+jest.mock("nodemailer");
 const sendEmail_1 = __importDefault(require("../../../utils/emails/sendEmail"));
 const nodemailer = __importStar(require("nodemailer"));
-jest.mock("nodemailer");
 describe("sendEmail function", () => {
     it("should send an email successfully", async () => {
         const mockedCreateTransport = nodemailer.createTransport;

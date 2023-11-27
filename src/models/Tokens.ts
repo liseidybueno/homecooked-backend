@@ -43,8 +43,18 @@ Token.init(
   }
 );
 
-Token.sync({ alter: true }).then(() => {
-  console.log("Token database synced.");
-});
+// Token.sync().then(() => {
+//   console.log("Token database synced.");
+// });
+
+if (process.env.NODE_ENV !== "test") {
+  sq.sync()
+    .then(() => {
+      console.log("Token database synced.");
+    })
+    .catch((error) => {
+      console.error("Error syncing Token model:", error);
+    });
+}
 
 export default Token;
