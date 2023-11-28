@@ -28,8 +28,14 @@ Token.init({
     tableName: "tokens",
     timestamps: true,
 });
-Token.sync({ alter: true }).then(() => {
-    console.log("Token database synced.");
-});
+if (process.env.NODE_ENV !== "test") {
+    Token.sync()
+        .then(() => {
+        console.log("Token database synced.");
+    })
+        .catch((error) => {
+        console.error("Error syncing Token model:", error);
+    });
+}
 exports.default = Token;
 //# sourceMappingURL=Tokens.js.map

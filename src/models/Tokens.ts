@@ -43,12 +43,8 @@ Token.init(
   }
 );
 
-// Token.sync().then(() => {
-//   console.log("Token database synced.");
-// });
-
 if (process.env.NODE_ENV !== "test") {
-  sq.sync()
+  Token.sync()
     .then(() => {
       console.log("Token database synced.");
     })

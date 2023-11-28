@@ -5,14 +5,14 @@ import bcrypt from "bcrypt";
 import sendEmail from "../utils/emails/sendEmail";
 
 async function resetPassword(email: string, token: string, password: string) {
-  console.log("****RESET PASSWORD HERE");
-  console.log(email, token, password);
   let passwordResetToken = await Token.findOne({ where: { userEmail: email } });
+
   if (!passwordResetToken) {
     throw new Error("Invalid or expired password reset token.");
   }
 
   const isValid = await bcrypt.compare(token, passwordResetToken.token);
+
   if (!isValid) {
     throw new Error("Invalid or expired password reset token.");
   }
@@ -22,7 +22,7 @@ async function resetPassword(email: string, token: string, password: string) {
       email,
     },
   });
-  console.log("");
+
   currentUser!.password = password;
 
   currentUser?.save();
@@ -40,7 +40,6 @@ async function resetPassword(email: string, token: string, password: string) {
 }
 
 async function requestPasswordReset(email: string) {
-  console.log("*****request password reset");
   const user = await User.findOne({
     where: {
       email,
@@ -75,16 +74,16 @@ async function requestPasswordReset(email: string) {
     expiry: newDate,
   } as TokenAttributes);
 
-  const clientURL = "http://127.0.0.1:5173";
+  const env = process.env.NODE_ENV || "development";
+
+  const clientURL =
+    env === "development"
+      ? process.env.CLIENT_URL_DEV
+      : process.env.CLIENT_URL_PROD;
 
   const link = `${clientURL}/resetPassword?token=${resetToken}&id=${user.email}`;
 
-  console.log("****before send email");
-
-  console.log("****email", user.email);
-
   try {
-    console.log("****inside try");
     sendEmail(
       email,
       "Password Reset Request",
@@ -92,16 +91,9 @@ async function requestPasswordReset(email: string) {
       "src/utils/emails/template/requestResetPassword.handlebars"
     );
   } catch (error) {
-    console.log("***error", error);
+    console.log("Error sending email: ", error);
   }
-  // sendEmail(
-  //   user.email,
-  //   "Password Reset Request",
-  //   { name: user.firstName, link: link },
-  //   "src/utils/emails/template/requestResetPassword.handlebars"
-  // );
 
-  console.log("*******after send email");
   return link;
 }
 

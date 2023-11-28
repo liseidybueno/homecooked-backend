@@ -55,6 +55,15 @@ class User extends sequelize_1.Model {
             modelName: "User",
             tableName: "users",
         });
+        if (process.env.NODE_ENV !== "test") {
+            User.sync()
+                .then(() => {
+                console.log("User database synced.");
+            })
+                .catch((error) => {
+                console.error("Error syncing User model:", error);
+            });
+        }
     }
     validPassword(password) {
         return bcrypt_1.default.compareSync(password, this.password);
