@@ -9,17 +9,22 @@ const resetPasswordRouter: Router = express.Router();
 
 requestPasswordRouter.post("/", async (req: Request, res: Response) => {
   try {
-    await resetPasswordRequestController(req, res);
+    const response = await resetPasswordRequestController(req);
+    res.status(200).json(response);
   } catch (error) {
     console.log("Reset Password Request Controller Error", error);
+    res.status(400).json({ error: "An error occurred." });
   }
 });
 
 resetPasswordRouter.post("/", async (req: Request, res: Response) => {
   try {
-    await resetPasswordController(req, res);
+    const response = await resetPasswordController(req);
+    console.log("***reseet password router response", response);
+    res.status(200).json(response);
   } catch (error) {
     console.log("Reset Pasword Controller Error", error);
+    res.status(400).json({ error: "An error occurred." });
   }
 });
 

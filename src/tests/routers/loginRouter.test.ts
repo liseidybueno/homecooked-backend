@@ -1,6 +1,5 @@
 import request from "supertest";
 import express from "express";
-// import loginRouter from "../../routers/loginRouter"; // Update with the correct path
 import userController from "../../controllers/userController";
 
 jest.mock("../../controllers/userController"); // Mock userController
