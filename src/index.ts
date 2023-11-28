@@ -27,8 +27,6 @@ app.get("/", (res: Response) => {
   res.send("Hello World From the Typescript Server!");
 });
 
-console.log("****index");
-
 app.use("/signup", signUpRouter);
 app.use("/login", loginRouter);
 app.use("/requestResetPassword", requestPasswordRouter);
