@@ -24,15 +24,18 @@ async function resetPassword(email: string, token: string, password: string) {
   });
 
   currentUser!.password = password;
-
   currentUser?.save();
 
-  sendEmail(
-    email,
-    "Password Reset Successfully",
-    { name: currentUser?.firstName },
-    "src/utils/emails/template/resetPassword.handlebars"
-  );
+  try {
+    sendEmail(
+      email,
+      "Password Reset Successfully",
+      { name: currentUser?.firstName },
+      "src/utils/emails/template/resetPassword.handlebars"
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
   await passwordResetToken.destroy();
 
@@ -57,7 +60,11 @@ async function requestPasswordReset(email: string) {
   });
 
   if (token) {
-    await token.destroy();
+    await Token.destroy({
+      where: {
+        userEmail: email,
+      },
+    });
   }
 
   let resetToken = crypto.randomBytes(32).toString("hex");
@@ -92,6 +99,7 @@ async function requestPasswordReset(email: string) {
     );
   } catch (error) {
     console.log("Error sending email: ", error);
+    // throw new Error("Could not send email.");
   }
 
   return link;

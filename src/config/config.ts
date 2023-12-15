@@ -25,3 +25,11 @@ export const production: DbConfig = {
   host: process.env.PROD_DB_HOST || "localhost",
   dialect: (process.env.PROD_DB_DIALECT as Dialect) || "postgres",
 };
+
+export const test: DbConfig = {
+  database: process.env.TEST_DB_NAME!,
+  username: process.env.TEST_DB_USER!,
+  password: process.env.TEST_DB_PASSWORD!,
+  host: process.env.TEST_DB_HOST!,
+  dialect: (process.env.TEST_DB_DIALECT as Dialect) || "postgres",
+};

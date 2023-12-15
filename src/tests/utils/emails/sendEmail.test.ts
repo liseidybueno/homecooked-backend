@@ -1,7 +1,10 @@
-jest.mock("nodemailer");
-
 import sendEmail from "../../../utils/emails/sendEmail";
 import * as nodemailer from "nodemailer";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+jest.mock("nodemailer");
 
 describe("sendEmail function", () => {
   it("should send an email successfully", async () => {
@@ -13,24 +16,24 @@ describe("sendEmail function", () => {
 
     mockedCreateTransport.mockReturnValue({
       sendMail: mockedSendMail.mockResolvedValueOnce({
-        accepted: ["liseidybueno@gmail.com"],
+        accepted: ["testemail@test.com"],
         rejected: [],
         messageId: "mocked-message-id",
       }),
     } as any);
 
     const result = await sendEmail(
-      "liseidybueno@gmail.com",
+      "testemail@test.com",
       "Test Subject",
-      { name: "Liseidy" },
+      { name: "Test" },
       "src/utils/emails/template/requestResetPassword.handlebars"
     );
 
     expect(mockedSendMail).toHaveBeenCalledWith({
-      from: "liseidybueno@gmail.com",
-      to: "liseidybueno@gmail.com",
+      from: process.env.EMAIL_ADDRESS,
+      to: "testemail@test.com",
       subject: "Test Subject",
-      html: expect.stringContaining("Hi Liseidy"),
+      html: expect.stringContaining("Hi Test"),
     });
     expect(result).toBe("Email sent successfully");
   });
@@ -47,17 +50,17 @@ describe("sendEmail function", () => {
     } as any);
 
     const result = await sendEmail(
-      "liseidybueno@gmail.com",
+      "testemail@test.com",
       "Test Subject",
-      { name: "Liseidy" },
+      { name: "Test" },
       "src/utils/emails/template/requestResetPassword.handlebars"
     );
 
     expect(mockedSendMail).toHaveBeenCalledWith({
-      from: "liseidybueno@gmail.com",
-      to: "liseidybueno@gmail.com",
+      from: process.env.EMAIL_ADDRESS,
+      to: "testemail@test.com",
       subject: "Test Subject",
-      html: expect.stringContaining("Hi Liseidy"),
+      html: expect.stringContaining("Hi Test"),
     });
     expect(result).toBe("Email not sent");
   });

@@ -70,7 +70,7 @@ describe("Reset password router", () => {
     expect(response.body).toBe(true);
   });
 
-  it.only("should respond with an error", async () => {
+  it("should respond with an error", async () => {
     (authController.resetPasswordController as jest.Mock).mockRejectedValueOnce(
       new Error("Test error")
     );
